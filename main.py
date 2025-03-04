@@ -43,10 +43,10 @@ if __name__ == '__main__':
     
     if st.session_state['file_csv'] in ['None', '']:
         st.write('NONE')
-    # else:
-    #     df = pd.read_csv(csv_file)
-    #     with st.expander('VIEW DATAFRAME'):
-    #         st.dataframe(df)
+    else:
+        df = pd.read_csv(st.session_state['file_csv'])
+        with st.expander('VIEW DATAFRAME'):
+            st.dataframe(df)
     
     # exit()
     # # load template
