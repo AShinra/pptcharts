@@ -38,6 +38,7 @@ if __name__ == '__main__':
     
     # load data
     df = get_data_from_csv()
+    exit()
     with st.expander('VIEW DATAFRAME'):
         st.dataframe(df)
     exit()
