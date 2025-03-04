@@ -40,7 +40,7 @@ if __name__ == '__main__':
     df = get_data_from_csv()
     with st.expander('VIEW DATAFRAME'):
         st.dataframe(df)
-
+    exit()
     # load template
     col11, col12 = st.columns([0.25, 0.75])
     with col11:
