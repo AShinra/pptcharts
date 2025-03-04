@@ -41,9 +41,7 @@ if __name__ == '__main__':
     # load data
     csv_file = st.file_uploader('Upload File', type=['csv'], key='file_csv')
     
-    if st.session_state['file_csv'] in [None, '']:
-        st.write('NONE')
-    else:
+    if st.session_state['file_csv'] not in [None, '']:
         df = pd.read_csv(st.session_state['file_csv'])
         with st.expander('VIEW DATAFRAME'):
             st.dataframe(df)
