@@ -7,7 +7,8 @@ from pptx.dml.color import RGBColor
 import streamlit as st
 
 def load_data(csv_file):
-    return pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file)
+    return df
 
 def get_slide_layout(prs, chart_layout_name):
 
@@ -38,9 +39,9 @@ if __name__ == '__main__':
     
     # load data
     df = get_data_from_csv()
-    exit()
-    with st.expander('VIEW DATAFRAME'):
-        st.dataframe(df)
+    if df not in [None, '']:
+        with st.expander('VIEW DATAFRAME'):
+            st.dataframe(df)
     exit()
     # load template
     col11, col12 = st.columns([0.25, 0.75])
