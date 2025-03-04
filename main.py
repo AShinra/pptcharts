@@ -45,7 +45,7 @@ if __name__ == '__main__':
     col11, col12 = st.columns([0.25, 0.75])
     with col11:
         prs = load_ppt_template()
-
+    exit()
     col21, col22 = st.columns([0.25, 0.75])    
     # with col21:
         # btn_template = st.button('SELECT', use_container_width=True)
