@@ -7,9 +7,10 @@ from pptx.dml.color import RGBColor
 import streamlit as st
 
 def load_data(csv_file):
-    df = pd.read_csv(csv_file)
-    if not df.empty():
-        return df
+    if csv_file == None:
+        return None
+    else:
+        return pd.read_csv(csv_file)
 
 def get_slide_layout(prs, chart_layout_name):
 
