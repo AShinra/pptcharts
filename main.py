@@ -26,12 +26,12 @@ def load_ppt_template():
     selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
 
     if selected_template == 'Template-1':
-        return Presentation('Templates/Template-1.pptx')
+        prs = Presentation('Templates/Template-1.pptx')
     
     if selected_template == 'Template-2':
-        return Presentation('Templates/Template-2.pptx')
+        prs = Presentation('Templates/Template-2.pptx')
 
-
+    return prs
 
 
 if __name__ == '__main__':
