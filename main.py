@@ -44,7 +44,7 @@ if __name__ == '__main__':
     if st.session_state['file_csv'] not in [None, '']:
         df = pd.read_csv(st.session_state['file_csv'])
         with st.expander('VIEW DATAFRAME'):
-            st.dataframe(df)
+            st.dataframe(df, use_container_width=True)
     
     # exit()
     # # load template
