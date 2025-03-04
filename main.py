@@ -21,9 +21,8 @@ def get_slide_layout(prs, chart_layout_name):
     return None
 
 
-def get_data_from_csv():
-    _data = st.file_uploader('Upload File', type=['csv'])
-    return pd.read_csv(_data)
+def get_data_from_csv(csv_file):
+    return pd.read_csv(csv_file)
 
 def load_ppt_template():
     selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
@@ -40,7 +39,8 @@ def load_ppt_template():
 if __name__ == '__main__':
     
     # load data
-    df = get_data_from_csv()
+    csv_file = st.file_uploader('Upload File', type=['csv'])
+    df = get_data_from_csv(csv_file)
     with st.expander('VIEW DATAFRAME'):
         st.dataframe(df)
     exit()
