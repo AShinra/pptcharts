@@ -8,7 +8,8 @@ import streamlit as st
 
 def load_data(csv_file):
     df = pd.read_csv(csv_file)
-    return df
+    if not df.empty():
+        return df
 
 def get_slide_layout(prs, chart_layout_name):
 
@@ -39,9 +40,8 @@ if __name__ == '__main__':
     
     # load data
     df = get_data_from_csv()
-    if df not in [None, '']:
-        with st.expander('VIEW DATAFRAME'):
-            st.dataframe(df)
+    with st.expander('VIEW DATAFRAME'):
+        st.dataframe(df)
     exit()
     # load template
     col11, col12 = st.columns([0.25, 0.75])
