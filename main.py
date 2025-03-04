@@ -42,42 +42,42 @@ if __name__ == '__main__':
     csv_file = st.file_uploader('Upload File', type=['csv'], key='file_csv')
     exit()
     
-    if st.session_state['file_csv'] in ['None', '']:
-        st.write('NONE')
-    else:
-        df = get_data_from_csv(csv_file)
-        with st.expander('VIEW DATAFRAME'):
-            st.dataframe(df)
+    # if st.session_state['file_csv'] in ['None', '']:
+    #     st.write('NONE')
+    # else:
+    #     df = get_data_from_csv(csv_file)
+    #     with st.expander('VIEW DATAFRAME'):
+    #         st.dataframe(df)
     
-    exit()
-    # load template
-    col11, col12 = st.columns([0.25, 0.75])
-    with col11:
-        prs = load_ppt_template()
-    exit()
-    col21, col22 = st.columns([0.25, 0.75])    
-    # with col21:
-        # btn_template = st.button('SELECT', use_container_width=True)
+    # exit()
+    # # load template
+    # col11, col12 = st.columns([0.25, 0.75])
+    # with col11:
+    #     prs = load_ppt_template()
+    # exit()
+    # col21, col22 = st.columns([0.25, 0.75])    
+    # # with col21:
+    #     # btn_template = st.button('SELECT', use_container_width=True)
 
-    _layouts = {}
-    _layout_names = []
-    # if btn_template:
-    for layout in prs.slide_layouts:
-        _layouts[layout.name] = layout
-        _layout_names.append(layout.name)
-        # st.write(layout.name)
-            # for placeholder in layout.placeholders:
-            #     st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
+    # _layouts = {}
+    # _layout_names = []
+    # # if btn_template:
+    # for layout in prs.slide_layouts:
+    #     _layouts[layout.name] = layout
+    #     _layout_names.append(layout.name)
+    #     # st.write(layout.name)
+    #         # for placeholder in layout.placeholders:
+    #         #     st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
     
-    # st.write(_layouts)
-    # st.write(_layout_names)
-    exit()
+    # # st.write(_layouts)
+    # # st.write(_layout_names)
+    # exit()
 
-    with col12:
-        selected_layout = st.selectbox('LAYOUTS', options=_layout_names)
-        my_layout = _layouts[selected_layout]
-        for placeholder in my_layout.placeholders:
-            st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
+    # with col12:
+    #     selected_layout = st.selectbox('LAYOUTS', options=_layout_names)
+    #     my_layout = _layouts[selected_layout]
+    #     for placeholder in my_layout.placeholders:
+    #         st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
 
     
     # slide_layout, _placeholderindex = get_slide_layout(prs, 'SOV')
