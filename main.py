@@ -31,7 +31,6 @@ def load_ppt_template():
     if selected_template == 'Template-2':
         return Presentation('Templates/Template-2.pptx')
 
-    return None
 
 
 
@@ -69,7 +68,7 @@ if __name__ == '__main__':
         my_layout = _layouts[selected_layout]
         for placeholder in my_layout.placeholders:
             st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
-    
+
     exit()
     
     # slide_layout, _placeholderindex = get_slide_layout(prs, 'SOV')
