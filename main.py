@@ -6,34 +6,34 @@ from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 import streamlit as st
 
-def load_data(csv_file):
-    if csv_file == None:
-        return None
-    else:
-        return pd.read_csv(csv_file)
+# def load_data(csv_file):
+#     if csv_file == None:
+#         return None
+#     else:
+#         return pd.read_csv(csv_file)
 
-def get_slide_layout(prs, chart_layout_name):
+# def get_slide_layout(prs, chart_layout_name):
 
-    for layout in prs.slide_layouts:
-        for placeholder in layout.placeholders:
-            if placeholder.name == 'Chart Placeholder 8':
-                return layout, placeholder.placeholder_format.idx
-    return None
+#     for layout in prs.slide_layouts:
+#         for placeholder in layout.placeholders:
+#             if placeholder.name == 'Chart Placeholder 8':
+#                 return layout, placeholder.placeholder_format.idx
+#     return None
 
 
-def get_data_from_csv(csv_file):
-    return pd.read_csv(csv_file)
+# def get_data_from_csv(csv_file):
+#     return pd.read_csv(csv_file)
 
-def load_ppt_template():
-    selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
+# def load_ppt_template():
+#     selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
 
-    if selected_template == 'Template-1':
-        prs = Presentation('Templates/Template-1.pptx')
+#     if selected_template == 'Template-1':
+#         prs = Presentation('Templates/Template-1.pptx')
     
-    if selected_template == 'Template-2':
-        prs = Presentation('Templates/Template-2.pptx')
+#     if selected_template == 'Template-2':
+#         prs = Presentation('Templates/Template-2.pptx')
 
-    return prs
+#     return prs
 
 
 if __name__ == '__main__':
