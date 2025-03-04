@@ -62,6 +62,7 @@ if __name__ == '__main__':
     
     # st.write(_layouts)
     # st.write(_layout_names)
+    exit()
 
     with col12:
         selected_layout = st.selectbox('LAYOUTS', options=_layout_names)
@@ -69,7 +70,6 @@ if __name__ == '__main__':
         for placeholder in my_layout.placeholders:
             st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
 
-    exit()
     
     # slide_layout, _placeholderindex = get_slide_layout(prs, 'SOV')
     # slide = prs.slides.add_slide(slide_layout)
