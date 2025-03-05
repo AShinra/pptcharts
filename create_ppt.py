@@ -6,6 +6,7 @@ from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 import streamlit as st
 import matplotlib.font_manager
+from streamlit_option_menu import option_menu
 
 # def load_ppt_template():
 #     selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
@@ -44,11 +45,18 @@ import matplotlib.font_manager
 #     return available_fonts
 
 
-def add_clusteredbar_slide(df, prs):
+def add_bar_slide(df, prs, grouping):
+
+    if grouping == 'Clustered':
+        grouptype = XL_CHART_TYPE.COLUMN_CLUSTERED
+        layoutname = 'BarChartClustered'
+    if grouping == 'Stacked':
+        grouptype = XL_CHART_TYPE.COLUMN_STACKED
+        layoutname = 'BarChartStacked'
 
     # get the index number of the Chart Placeholder from the slide named BarChart
     for layout in prs.slide_layouts:
-        if layout.name == 'BarChartClustered':
+        if layout.name == layoutname:
             slide = prs.slides.add_slide(layout)
             for placeholder in layout.placeholders:
                 if 'Chart Placeholder' in placeholder.name:
@@ -65,37 +73,63 @@ def add_clusteredbar_slide(df, prs):
     
     # Insert chart to the placeholder
     chart_placeholder = slide.placeholders[idx]
-    chart_frame = chart_placeholder.insert_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, chart_data)
+    chart_frame = chart_placeholder.insert_chart(grouptype, chart_data)
     _chart = chart_frame.chart
 
     return
 
 
-def add_stackedbar_slide(df, prs):
+def add_pie_slide(df, prs):
 
     # get the index number of the Chart Placeholder from the slide named BarChart
     for layout in prs.slide_layouts:
-        if layout.name == 'BarChartStacked':
+        if layout.name == 'PieChart':
             slide = prs.slides.add_slide(layout)
             for placeholder in layout.placeholders:
                 if 'Chart Placeholder' in placeholder.name:
                     idx = placeholder.placeholder_format.idx
 
-    # Add Category
+    # Define chart data
     chart_data = CategoryChartData()
-    chart_data.categories = df['Date']
+    chart_data.categories = df[df.columns.tolist()[0]]
+    # chart_data.add_series('Count', df['Count'])
 
-    # Add Series
     df_headers = df.columns.tolist()[1:]
     for df_header in df_headers:
         chart_data.add_series(df_header, df[df_header])
-    
-    # Insert chart to the placeholder
+      
+        # Add pie chart to the slide
     chart_placeholder = slide.placeholders[idx]
-    chart_frame = chart_placeholder.insert_chart(XL_CHART_TYPE.COLUMN_STACKED, chart_data)
+    chart_frame = chart_placeholder.insert_chart(XL_CHART_TYPE.PIE, chart_data)
     _chart = chart_frame.chart
 
-    return
+
+def add_line_slide(df, prs):
+
+    # get the index number of the Chart Placeholder from the slide named BarChart
+    for layout in prs.slide_layouts:
+        if layout.name == 'LineChart':
+            slide = prs.slides.add_slide(layout)
+            for placeholder in layout.placeholders:
+                if 'Chart Placeholder' in placeholder.name:
+                    idx = placeholder.placeholder_format.idx
+
+    # Define chart data
+    chart_data = CategoryChartData()
+    chart_data.categories = df[df.columns.tolist()[0]]
+    # chart_data.add_series('Count', df['Count'])
+
+    df_headers = df.columns.tolist()[1:]
+    for df_header in df_headers:
+        chart_data.add_series(df_header, df[df_header])
+      
+        # Add pie chart to the slide
+    chart_placeholder = slide.placeholders[idx]
+    chart_frame = chart_placeholder.insert_chart(XL_CHART_TYPE.LINE, chart_data)
+    _chart = chart_frame.chart
+
+
+
 
 
 
@@ -103,40 +137,51 @@ def add_stackedbar_slide(df, prs):
 
 if __name__ == '__main__':
     
-    # create presentation from the selected template
-    prs = Presentation('Templates/Template-3.pptx')
+    with st.sidebar:
+        chart_type = option_menu(
+            menu_title='Chart Type',
+            options=['Bar', 'Pie', 'Line']
+        )
 
-    # load data
-    col11, col12 = st.columns(2, border=True)
-    with col11:
-        bar_csv = st.file_uploader('Bar Data', type='csv')
-        try:
-            bar_df = pd.read_csv(bar_csv)
-            with st.expander('View Data'):
-                st.dataframe(bar_df, hide_index='hidden', use_container_width=True)
-                # create bar chart
-                add_clusteredbar_slide(bar_df, prs)
-                add_stackedbar_slide(bar_df, prs)
-        except:
-            pass
+        if chart_type == 'Bar':
+            sub_type = option_menu(
+                menu_title='Grouping',
+                options=['Stacked', 'Clustered']
+            )
+    data_csv = st.file_uploader('Data', type='csv', label_visibility='hidden')
 
-    with col12:
-        pie_csv = st.file_uploader('Pie Data', type='csv')
-        try:
-            pie_df = pd.read_csv(pie_csv)
-            with st.expander('View Data'):
-                st.dataframe(pie_df, hide_index='hidden', use_container_width=True)
-        except:
-            pass
+    if data_csv not in [None, '']:
 
-    # save the presentation
-    btn_save = st.button('Save')
-    if btn_save:
-        prs.save('Output/output_presentation4.pptx')
+        # create presentation from the selected template
+        prs = Presentation('Templates/Template-3.pptx')
 
-        result_file = open('Output/output_presentation4.pptx', 'rb')
-        st.success(f':red[NOTE:] Downloaded file will go to the :red[Downloads Folder]')
-        st.download_button(label='📥 Download Cleaned Raw', data=result_file ,file_name= f'ppt_test_charts.pptx')
+        # load data
+        df = pd.read_csv(data_csv)
+        with st.expander('View Data'):
+            st.dataframe(df, hide_index='hidden', use_container_width=True)
+
+        if chart_type == 'Bar':
+            if sub_type == 'Clustered':
+                add_bar_slide(df, prs, 'Clustered')               
+            
+            if sub_type == 'Stacked':
+                add_bar_slide(df, prs, 'Stacked')
+        
+        if chart_type == 'Pie':
+            add_pie_slide(df, prs)
+        
+        if chart_type == 'Line':
+            add_line_slide(df, prs)
+
+                
+        # save the presentation
+        btn_save = st.button('Save')
+        if btn_save:
+            prs.save('Output/output_presentation4.pptx')
+
+            result_file = open('Output/output_presentation4.pptx', 'rb')
+            st.success(f':red[NOTE:] Downloaded file will go to the :red[Downloads Folder]')
+            st.download_button(label='📥 Download Cleaned Raw', data=result_file ,file_name= f'ppt_test_charts.pptx')
 
 
     
