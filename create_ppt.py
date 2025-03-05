@@ -182,10 +182,10 @@ if __name__ == '__main__':
         
         if chart_type == 'Pie':
             if sub_type == 'Standard':
-                add_bar_slide(df, prs, 'Standard')               
+                add_pie_slide(df, prs, 'Standard')               
             
             if sub_type == 'Doughnut':
-                add_bar_slide(df, prs, 'Doughnut')
+                add_pie_slide(df, prs, 'Doughnut')
         else:
             pass
         
