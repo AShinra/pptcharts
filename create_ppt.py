@@ -79,7 +79,12 @@ def add_bar_slide(df, prs, grouping):
     return
 
 
-def add_pie_slide(df, prs):
+def add_pie_slide(df, prs, grouping):
+
+    if grouping == 'Standard':
+        grouptype = XL_CHART_TYPE.PIE
+    if grouping == 'Stacked':
+        grouptype = XL_CHART_TYPE.DOUGHNUT
 
     # get the index number of the Chart Placeholder from the slide named BarChart
     for layout in prs.slide_layouts:
@@ -100,7 +105,7 @@ def add_pie_slide(df, prs):
       
         # Add pie chart to the slide
     chart_placeholder = slide.placeholders[idx]
-    chart_frame = chart_placeholder.insert_chart(XL_CHART_TYPE.PIE, chart_data)
+    chart_frame = chart_placeholder.insert_chart(grouptype, chart_data)
     _chart = chart_frame.chart
 
 
@@ -148,6 +153,12 @@ if __name__ == '__main__':
                 menu_title='Grouping',
                 options=['Stacked', 'Clustered']
             )
+        
+        if chart_type == 'Pie':
+            sub_type = option_menu(
+                menu_title='Grouping',
+                options=['Standard', 'Doughnut']
+            )
     data_csv = st.file_uploader('Data', type='csv', label_visibility='hidden')
 
     if data_csv not in [None, '']:
@@ -168,7 +179,11 @@ if __name__ == '__main__':
                 add_bar_slide(df, prs, 'Stacked')
         
         if chart_type == 'Pie':
-            add_pie_slide(df, prs)
+            if sub_type == 'Standard':
+                add_bar_slide(df, prs, 'Standard')               
+            
+            if sub_type == 'Doughnut':
+                add_bar_slide(df, prs, 'Doughnut')
         
         if chart_type == 'Line':
             add_line_slide(df, prs)
