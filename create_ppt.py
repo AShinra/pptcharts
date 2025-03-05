@@ -134,6 +134,10 @@ if __name__ == '__main__':
     if btn_save:
         prs.save('Output/output_presentation4.pptx')
 
+        result_file = open('Output/output_presentation4.pptx', 'rb')
+        st.success(f':red[NOTE:] Downloaded file will go to the :red[Downloads Folder]')
+        st.download_button(label='📥 Download Cleaned Raw', data=result_file ,file_name= f'ppt_test_charts.pptx')
+
 
     
 
