@@ -85,6 +85,10 @@ def add_pie_slide(df, prs, grouping):
         grouptype = XL_CHART_TYPE.PIE
     if grouping == 'Doughnut':
         grouptype = XL_CHART_TYPE.DOUGHNUT
+    if grouping == 'Exploded Standard':
+        grouptype = XL_CHART_TYPE.PIE_EXPLODED
+    if grouping == 'Exploded Doughnut':
+        grouptype = XL_CHART_TYPE.DOUGHNUT_EXPLODED
 
     # get the index number of the Chart Placeholder from the slide named BarChart
     for layout in prs.slide_layouts:
@@ -157,7 +161,7 @@ if __name__ == '__main__':
         if chart_type == 'Pie':
             sub_type = option_menu(
                 menu_title='Grouping',
-                options=['Standard', 'Doughnut']
+                options=['Standard', 'Doughnut', 'Exploded Standard', 'Exploded Doughnut']
             )
     data_csv = st.file_uploader('Data', type='csv', label_visibility='hidden')
 
@@ -186,6 +190,12 @@ if __name__ == '__main__':
             
             if sub_type == 'Doughnut':
                 add_pie_slide(df, prs, 'Doughnut')
+
+            if sub_type == 'Doughnut':
+                add_pie_slide(df, prs, 'Exploded Standard')
+
+            if sub_type == 'Doughnut':
+                add_pie_slide(df, prs, 'Exploded Doughnut')
         else:
             pass
         
