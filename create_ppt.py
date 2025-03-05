@@ -64,7 +64,7 @@ def add_bar_slide(df, prs, grouping):
 
     # Add Category
     chart_data = CategoryChartData()
-    chart_data.categories = df['Date']
+    chart_data.categories = df[df.columns.tolist()[0]]
 
     # Add Series
     df_headers = df.columns.tolist()[1:]
