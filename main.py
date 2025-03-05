@@ -5,35 +5,46 @@ from pptx.enum.chart import XL_CHART_TYPE, XL_LEGEND_POSITION
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 import streamlit as st
+import matplotlib.font_manager
 
-# def load_data(csv_file):
-#     if csv_file == None:
-#         return None
-#     else:
-#         return pd.read_csv(csv_file)
+def load_ppt_template():
+    selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
 
-# def get_slide_layout(prs, chart_layout_name):
-
-#     for layout in prs.slide_layouts:
-#         for placeholder in layout.placeholders:
-#             if placeholder.name == 'Chart Placeholder 8':
-#                 return layout, placeholder.placeholder_format.idx
-#     return None
-
-
-# def get_data_from_csv(csv_file):
-#     return pd.read_csv(csv_file)
-
-# def load_ppt_template():
-#     selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
-
-#     if selected_template == 'Template-1':
-#         prs = Presentation('Templates/Template-1.pptx')
+    if selected_template == 'Template-1':
+        return Presentation('Templates/Template-1.pptx')
     
-#     if selected_template == 'Template-2':
-#         prs = Presentation('Templates/Template-2.pptx')
+    if selected_template == 'Template-2':
+        return Presentation('Templates/Template-2.pptx')
 
-#     return prs
+
+def create_bar_chart(df, slide, idx):
+
+    # Add Category
+    chart_data = CategoryChartData()
+    chart_data.categories = df['Date']
+
+    # Add Series
+    df_headers = df.columns.tolist()[1:]
+    for df_header in df_headers:
+        chart_data.add_series(df_header, df[df_header])
+    
+    # Insert chart to the placeholder
+    chart_placeholder = slide.placeholders[idx]
+    chart_frame = chart_placeholder.insert_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, chart_data)
+    _chart = chart_frame.chart
+
+    return _chart
+
+
+def get_available_fonttypeface():
+
+    # Get a list of all available font names
+    available_fonts = sorted(set(f.name for f in matplotlib.font_manager.fontManager.ttflist))
+    
+    return available_fonts
+
+
+
 
 
 if __name__ == '__main__':
@@ -44,42 +55,59 @@ if __name__ == '__main__':
     if st.session_state['file_csv'] not in [None, '']:
         df = pd.read_csv(st.session_state['file_csv'])
         with st.expander('VIEW DATAFRAME'):
-            st.dataframe(df, use_container_width=True)
+            st.dataframe(df, use_container_width=True, hide_index=True)
     
-    # exit()
-    # # load template
-    # col11, col12 = st.columns([0.25, 0.75])
-    # with col11:
-    #     prs = load_ppt_template()
-    # exit()
-    # col21, col22 = st.columns([0.25, 0.75])    
-    # # with col21:
-    #     # btn_template = st.button('SELECT', use_container_width=True)
+        # load template
+        _layouts = {}
+        _layout_names = []
 
-    # _layouts = {}
-    # _layout_names = []
-    # # if btn_template:
-    # for layout in prs.slide_layouts:
-    #     _layouts[layout.name] = layout
-    #     _layout_names.append(layout.name)
-    #     # st.write(layout.name)
-    #         # for placeholder in layout.placeholders:
-    #         #     st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
-    
-    # # st.write(_layouts)
-    # # st.write(_layout_names)
-    # exit()
+        col11, col12 = st.columns(2)
+        
+        with col11:
+            prs = load_ppt_template()
 
-    # with col12:
-    #     selected_layout = st.selectbox('LAYOUTS', options=_layout_names)
-    #     my_layout = _layouts[selected_layout]
-    #     for placeholder in my_layout.placeholders:
-    #         st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
+        with col12:
+            for layout in prs.slide_layouts:
+                _layouts[layout.name] = layout
+                _layout_names.append(layout.name)
+        
+            selected_layout = st.selectbox('LAYOUTS', options=_layout_names)
+            my_layout = _layouts[selected_layout]
+            for placeholder in my_layout.placeholders:
+                if 'Chart Placeholder' in placeholder.name:
+                    # st.write(f'{placeholder.name} - {placeholder.placeholder_format.idx}')
+                    idx = placeholder.placeholder_format.idx
+        
+        slide = prs.slides.add_slide(_layouts[selected_layout])
 
-    
-    # slide_layout, _placeholderindex = get_slide_layout(prs, 'SOV')
-    # slide = prs.slides.add_slide(slide_layout)
-    
+        chart = create_bar_chart(df, slide, idx)
+
+        with st.expander('CHART DETAILS'):
+            col21, col22, col23 = st.columns(3, border=True)
+
+            # chart title
+            with col21:
+                cht_title = st.text_input('Chart Title')
+                cht_title_font_size = st.number_input('Font Size', min_value=1, max_value=100, step=1, value=8, help='Size of the chart title font, default is 8')
+                cht_title_font_name = st.selectbox('Font Name', options=get_available_fonttypeface())
+                
+                chart.has_title = True
+                if cht_title in [None, '']:
+                    chart.chart_title.text_frame.text = 'BAR CHART TITLE'
+                else:
+                    chart.chart_title.text_frame.text = cht_title
+
+                try:
+                    chart.chart_title.text_frame.paragraphs[0].font.size = Pt(cht_title_font_size)
+                    chart.chart_title.text_frame.paragraphs[0].font.name = cht_title_font_name
+                except:
+                    pass
+
+        btn_save = st.button('CREATE CHART')
+        if btn_save:
+            prs.save('Output/output_presentation3.pptx')
+
+
     # _title = slide.shapes.title
     # _title.text = 'My Sample Chart'
 
@@ -161,4 +189,4 @@ if __name__ == '__main__':
     #     except:
     #         pass
     
-    # prs.save('Output/output_presentation2.pptx')
+    # prs.save('Output/output_presentation3.pptx')
