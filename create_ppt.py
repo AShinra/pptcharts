@@ -83,7 +83,7 @@ def add_pie_slide(df, prs, grouping):
 
     if grouping == 'Standard':
         grouptype = XL_CHART_TYPE.PIE
-    if grouping == 'Stacked':
+    if grouping == 'Doughnut':
         grouptype = XL_CHART_TYPE.DOUGHNUT
 
     # get the index number of the Chart Placeholder from the slide named BarChart
@@ -177,6 +177,8 @@ if __name__ == '__main__':
             
             if sub_type == 'Stacked':
                 add_bar_slide(df, prs, 'Stacked')
+        else:
+            pass
         
         if chart_type == 'Pie':
             if sub_type == 'Standard':
@@ -184,6 +186,8 @@ if __name__ == '__main__':
             
             if sub_type == 'Doughnut':
                 add_bar_slide(df, prs, 'Doughnut')
+        else:
+            pass
         
         if chart_type == 'Line':
             add_line_slide(df, prs)
