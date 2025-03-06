@@ -8,6 +8,9 @@ import streamlit as st
 import matplotlib.font_manager
 from streamlit_option_menu import option_menu
 
+# charts
+from charts_bar import add_bar_slide
+
 # def load_ppt_template():
 #     selected_template = st.selectbox('TEMPLATES', options=['Template-1', 'Template-2'])
 
@@ -43,35 +46,6 @@ from streamlit_option_menu import option_menu
 #     available_fonts = sorted(set(f.name for f in matplotlib.font_manager.fontManager.ttflist))
     
 #     return available_fonts
-
-
-def add_bar_slide(grouping):
-
-    if grouping == 'Clustered':
-        grouptype = XL_CHART_TYPE.COLUMN_CLUSTERED
-        layoutname = 'BarChartClustered'
-    if grouping == 'Stacked':
-        grouptype = XL_CHART_TYPE.COLUMN_STACKED
-        layoutname = 'BarChartStacked'
-
-    # get the index number of the Chart Placeholder from the slide named BarChart
-    for layout in prs.slide_layouts:
-        if layout.name == layoutname:
-            slide = prs.slides.add_slide(layout)
-            for placeholder in layout.placeholders:
-                if 'Chart Placeholder' in placeholder.name:
-                    idx = placeholder.placeholder_format.idx
-
-    chart_data = add_chart_data()
-    
-    # Insert chart to the placeholder
-    chart_placeholder = slide.placeholders[idx]
-    chart_frame = chart_placeholder.insert_chart(grouptype, chart_data)
-    _chart = chart_frame.chart
-
-    chart_details(_chart, True, True)
-
-    return
 
 
 def add_pie_slide(df, prs, grouping):
@@ -235,10 +209,10 @@ if __name__ == '__main__':
 
         if chart_type == 'Bar':
             if sub_type == 'Clustered':
-                add_bar_slide('Clustered')               
+                add_bar_slide(df, prs, 'Clustered')               
             
             if sub_type == 'Stacked':
-                add_bar_slide('Stacked')
+                add_bar_slide(df, prs, 'Stacked')
         else:
             pass
         
