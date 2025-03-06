@@ -1,7 +1,7 @@
 import pandas as pd
 from pptx import Presentation
 from pptx.chart.data import CategoryChartData
-from pptx.enum.chart import XL_CHART_TYPE, XL_LEGEND_POSITION
+from pptx.enum.chart import XL_CHART_TYPE, XL_LEGEND_POSITION, XL_LABEL_POSITION
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 import streamlit as st
@@ -45,7 +45,7 @@ from streamlit_option_menu import option_menu
 #     return available_fonts
 
 
-def add_bar_slide(df, prs, grouping):
+def add_bar_slide(grouping):
 
     if grouping == 'Clustered':
         grouptype = XL_CHART_TYPE.COLUMN_CLUSTERED
@@ -62,19 +62,14 @@ def add_bar_slide(df, prs, grouping):
                 if 'Chart Placeholder' in placeholder.name:
                     idx = placeholder.placeholder_format.idx
 
-    # Add Category
-    chart_data = CategoryChartData()
-    chart_data.categories = df[df.columns.tolist()[0]]
-
-    # Add Series
-    df_headers = df.columns.tolist()[1:]
-    for df_header in df_headers:
-        chart_data.add_series(df_header, df[df_header])
+    chart_data = add_chart_data()
     
     # Insert chart to the placeholder
     chart_placeholder = slide.placeholders[idx]
     chart_frame = chart_placeholder.insert_chart(grouptype, chart_data)
     _chart = chart_frame.chart
+
+    chart_details(_chart, True, True)
 
     return
 
@@ -83,34 +78,33 @@ def add_pie_slide(df, prs, grouping):
 
     if grouping == 'Standard':
         grouptype = XL_CHART_TYPE.PIE
+        layoutname = 'PieChartStandard'
     if grouping == 'Doughnut':
         grouptype = XL_CHART_TYPE.DOUGHNUT
+        layoutname = 'PieChartDoughnut'
     if grouping == 'Exploded Standard':
         grouptype = XL_CHART_TYPE.PIE_EXPLODED
+        layoutname = 'PieChartxStandard'
     if grouping == 'Exploded Doughnut':
         grouptype = XL_CHART_TYPE.DOUGHNUT_EXPLODED
+        layoutname = 'PieChartxDoughnut'
 
     # get the index number of the Chart Placeholder from the slide named BarChart
     for layout in prs.slide_layouts:
-        if layout.name == 'PieChart':
+        if layout.name == layoutname:
             slide = prs.slides.add_slide(layout)
             for placeholder in layout.placeholders:
                 if 'Chart Placeholder' in placeholder.name:
                     idx = placeholder.placeholder_format.idx
 
-    # Define chart data
-    chart_data = CategoryChartData()
-    chart_data.categories = df[df.columns.tolist()[0]]
-    # chart_data.add_series('Count', df['Count'])
-
-    df_headers = df.columns.tolist()[1:]
-    for df_header in df_headers:
-        chart_data.add_series(df_header, df[df_header])
+    chart_data = add_chart_data()
       
-        # Add pie chart to the slide
+    # Add pie chart to the slide
     chart_placeholder = slide.placeholders[idx]
     chart_frame = chart_placeholder.insert_chart(grouptype, chart_data)
     _chart = chart_frame.chart
+
+    chart_details(_chart, False, False)
 
 
 def add_line_slide(df, prs):
@@ -123,19 +117,82 @@ def add_line_slide(df, prs):
                 if 'Chart Placeholder' in placeholder.name:
                     idx = placeholder.placeholder_format.idx
 
-    # Define chart data
-    chart_data = CategoryChartData()
-    chart_data.categories = df[df.columns.tolist()[0]]
-    # chart_data.add_series('Count', df['Count'])
-
-    df_headers = df.columns.tolist()[1:]
-    for df_header in df_headers:
-        chart_data.add_series(df_header, df[df_header])
+    chart_data = add_chart_data()
       
-        # Add pie chart to the slide
+    # Add pie chart to the slide
     chart_placeholder = slide.placeholders[idx]
     chart_frame = chart_placeholder.insert_chart(XL_CHART_TYPE.LINE, chart_data)
     _chart = chart_frame.chart
+
+    chart_details(_chart, True, True)
+
+
+def add_chart_data():
+
+    # Define chart data
+    chart_data = CategoryChartData()
+    chart_data.categories = df[df.columns.tolist()[0]]
+    
+    df_headers = df.columns.tolist()[1:]
+    for df_header in df_headers:
+        chart_data.add_series(df_header, df[df_header])
+    
+    return chart_data
+
+
+def chart_details(_chart, cat_axis, value_axis):
+
+    # chart title
+    _chart.has_title = True
+    _chart.chart_title.text_frame.text = "Place Chart Title Here"
+    try:
+        _chart.chart_title.text_frame.paragraphs[0].font.size = Pt(18)
+        _chart.chart_title.text_frame.paragraphs[0].font.name = 'Arial'
+    except:
+        pass
+    
+    if cat_axis == True:
+        # category axis
+        _chart.category_axis.axis_title.text_frame.text = df.columns.tolist()[0]
+        try:
+            _chart.category_axis.axis_title.text_frame.paragraphs[0].font.size = Pt(18)
+            _chart.category_axis.axis_title.text_frame.paragraphs[0].font.name = 'Arial'
+        except:
+            pass
+    
+    if value_axis == True:
+        # value axis
+        _chart.value_axis.axis_title.text_frame.text = "Count"
+        try:
+            _chart.value_axis.axis_title.text_frame.paragraphs[0].font.size = Pt(18)
+            _chart.value_axis.axis_title.text_frame.paragraphs[0].font.name = 'Arial'
+        except:
+            pass
+    
+    # legend
+    _chart.has_legend = True
+    _chart.legend.position = XL_LEGEND_POSITION.BOTTOM
+    _chart.legend.include_in_layout = False
+    _chart.legend.font.size = Pt(8)
+    _chart.legend.font.bold = True
+    _chart.legend.font.name = 'Arial'
+
+    # data labels
+    for series in _chart.series:
+        series.has_data_labels = True  # Enable data labels
+        series.data_labels.show_value = True  # Show values on the labels
+        # series.data_labels.show_category_name = True
+        series.data_labels.font.size = Pt(8)
+        series.data_labels.font.bold = True
+        series.data_labels.font.name = 'Arial'
+        # series.data_labels.show_series_name = False
+        # series.data_labels.position = XL_LABEL_POSITION.OUTSIDE_END
+    
+    # data table
+    _chart.has_data_table = True
+    # _chart.data_table.has_border_horizontal = True  # Add horizontal borders
+    # _chart.data_table.has_border_vertical = True  # Add vertical borders
+    # _chart.data_table.has_border_outline = True  # Add outline border
 
 
 
@@ -177,10 +234,10 @@ if __name__ == '__main__':
 
         if chart_type == 'Bar':
             if sub_type == 'Clustered':
-                add_bar_slide(df, prs, 'Clustered')               
+                add_bar_slide('Clustered')               
             
             if sub_type == 'Stacked':
-                add_bar_slide(df, prs, 'Stacked')
+                add_bar_slide('Stacked')
         else:
             pass
         
