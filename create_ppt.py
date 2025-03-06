@@ -218,7 +218,8 @@ if __name__ == '__main__':
         if chart_type == 'Pie':
             sub_type = option_menu(
                 menu_title='Grouping',
-                options=['Standard', 'Doughnut', 'Exploded Standard', 'Exploded Doughnut']
+                # options=['Standard', 'Doughnut', 'Exploded Standard', 'Exploded Doughnut']
+                options=['Standard', 'Doughnut']
             )
     data_csv = st.file_uploader('Data', type='csv', label_visibility='hidden')
 
