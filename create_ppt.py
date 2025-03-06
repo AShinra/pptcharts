@@ -246,13 +246,13 @@ if __name__ == '__main__':
             if sub_type == 'Standard':
                 add_pie_slide(df, prs, 'Standard')               
             
-            if sub_type == 'Doughnut':
+            elif sub_type == 'Doughnut':
                 add_pie_slide(df, prs, 'Doughnut')
 
-            if sub_type == 'Doughnut':
+            elif sub_type == 'Doughnut':
                 add_pie_slide(df, prs, 'Exploded Standard')
 
-            if sub_type == 'Doughnut':
+            elif sub_type == 'Doughnut':
                 add_pie_slide(df, prs, 'Exploded Doughnut')
         else:
             pass
