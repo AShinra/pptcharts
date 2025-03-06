@@ -92,8 +92,9 @@ def add_pie_slide(df, prs, grouping):
     # get the index number of the Chart Placeholder from the slide named BarChart
     for layout in prs.slide_layouts:
         st.write(layout.name)
-        st.write(layoutname)
-        # if layout.name == layoutname:
+        # st.write(layoutname)
+        if layout.name == layoutname:
+            st.write('Found')
             # slide = prs.slides.add_slide(layout)
             # for placeholder in layout.placeholders:
             #     if 'Chart Placeholder' in placeholder.name:
