@@ -82,12 +82,12 @@ def add_pie_slide(df, prs, grouping):
     if grouping == 'Doughnut':
         grouptype = XL_CHART_TYPE.DOUGHNUT
         layoutname = 'PieChartDoughnut'
-    if grouping == 'Exploded Standard':
-        grouptype = XL_CHART_TYPE.PIE_EXPLODED
-        layoutname = 'PieChartxStandard'
-    if grouping == 'Exploded Doughnut':
-        grouptype = XL_CHART_TYPE.DOUGHNUT_EXPLODED
-        layoutname = 'PieChartxDoughnut'
+    # if grouping == 'Exploded Standard':
+    #     grouptype = XL_CHART_TYPE.PIE_EXPLODED
+    #     layoutname = 'PieChartxStandard'
+    # if grouping == 'Exploded Doughnut':
+    #     grouptype = XL_CHART_TYPE.DOUGHNUT_EXPLODED
+    #     layoutname = 'PieChartxDoughnut'
 
     # get the index number of the Chart Placeholder from the slide named BarChart
     for layout in prs.slide_layouts:
