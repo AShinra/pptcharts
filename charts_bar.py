@@ -194,7 +194,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
         with col_legend12:
             cht_legend_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_legend_font_size')
         with col_legend13:
-            cht_legend_ftcolor = st.color_picker('Color', key='cht_value_font_color')
+            cht_legend_ftcolor = st.color_picker('Color', key='cht_legend_font_color')
             rgb_color = hex_to_rgb(cht_legend_ftcolor)
             cht_legend_dict['font_color'] = rgb_color
 
