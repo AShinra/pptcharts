@@ -188,13 +188,13 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
     # legend
     cht_legend_dict = {}
     with tab5:
-        col_legend11, col_legend12, col_legend13 = st.columns([0.75, 0.15, 0.10])
+        col_legend11, col_legend12, col_legend13 = st.columns([0.70, 0.15, 0.15])
         with col_legend11:
             cht_legend_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_legend_font_name')
         with col_legend12:
             cht_legend_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_legend_font_size')
         with col_legend13:
-            legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'], label_visibility='collapsed')
+            legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'])
             if legend_loc == 'Bottom':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.BOTTOM
             elif legend_loc == 'Top':
