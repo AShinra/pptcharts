@@ -188,7 +188,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
     # legend
     cht_legend_dict = {}
     with tab5:
-        col_legend11, col_legend12, col_legend13, col_legend14 = st.columns(4)
+        col_legend11, col_legend12, col_legend13 = st.columns([0.75, 0.15, 0.10])
         with col_legend11:
             cht_legend_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_legend_font_name')
         with col_legend12:
@@ -198,13 +198,14 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
                 cht_legend_dict['bold'] = True
             else:
                 cht_legend_dict['bold'] = False
-        with col_legend14:
+        
+        col_legend21, col_legend22, col_legend23, col_legend24 = st.columns(4)
+        with col_legend21:
             if st.checkbox('Italic', key='cht_legend_italic'):
                 cht_legend_dict['italic'] = True
             else:
-                cht_legend_dict['italic'] = False
-        col_legend21, col_legend22 = st.columns(2) 
-        with col_legend21:
+                cht_legend_dict['italic'] = False 
+        with col_legend22:
             legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'])
             if legend_loc == 'Bottom':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.BOTTOM
@@ -216,7 +217,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.LEFT
             elif legend_loc == 'Right':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.RIGHT
-        with col_legend22:
+        with col_legend23:
             legend_bool = st.checkbox('Show')
             if legend_bool:
                 cht_legend_dict['visible'] = True
@@ -253,6 +254,9 @@ def chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_
         chart_category_axis.paragraphs[0].font.size = Pt(cht_category_axis_dict['font_size'])
         chart_category_axis.paragraphs[0].font.name = cht_category_axis_dict['font_name']
         chart_category_axis.paragraphs[0].font.color.rgb = RGBColor(*cht_category_axis_dict['font_color'])
+        chart_category_axis.paragraphs[0].font.bold = cht_category_axis_dict['bold']
+        chart_category_axis.paragraphs[0].font.italic = cht_category_axis_dict['italic']
+        chart_category_axis.paragraphs[0].font.underline = cht_category_axis_dict['underline']
     except:
         pass
     
@@ -267,6 +271,9 @@ def chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_
         chart_value_axis.paragraphs[0].font.size = Pt(cht_value_axis_dict['font_size'])
         chart_value_axis.paragraphs[0].font.name = cht_value_axis_dict['font_name']
         chart_value_axis.paragraphs[0].font.color.rgb = RGBColor(*cht_value_axis_dict['font_color'])
+        chart_value_axis.paragraphs[0].font.bold = cht_value_axis_dict['bold']
+        chart_value_axis.paragraphs[0].font.italic = cht_value_axis_dict['italic']
+        chart_value_axis.paragraphs[0].font.underline = cht_value_axis_dict['underline']
     except:
         pass
 
