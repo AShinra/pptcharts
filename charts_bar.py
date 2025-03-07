@@ -216,7 +216,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
             else:
                 cht_legend_dict['visible'] = False
         with col_legend24:
-            legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'])
+            legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'], label_visibility='collapsed')
             if legend_loc == 'Bottom':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.BOTTOM
             elif legend_loc == 'Top':
