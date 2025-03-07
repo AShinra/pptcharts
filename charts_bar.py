@@ -200,6 +200,22 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
 
         col_legend21, col_legend22, col_legend23, col_legend24 = st.columns(4)
         with col_legend21:
+            if st.checkbox('Bold', key='cht_legend_bold'):
+                cht_legend_dict['bold'] = True
+            else:
+                cht_legend_dict['bold'] = False
+        with col_legend22:
+            if st.checkbox('Italic', key='cht_legend_italic'):
+                cht_legend_dict['italic'] = True
+            else:
+                cht_legend_dict['italic'] = False 
+        with col_legend23:
+            legend_bool = st.checkbox('Show')
+            if legend_bool:
+                cht_legend_dict['visible'] = True
+            else:
+                cht_legend_dict['visible'] = False
+        with col_legend24:
             legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'])
             if legend_loc == 'Bottom':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.BOTTOM
@@ -211,23 +227,6 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.LEFT
             elif legend_loc == 'Right':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.RIGHT
-        with col_legend22:
-            if st.checkbox('Bold', key='cht_legend_bold'):
-                cht_legend_dict['bold'] = True
-            else:
-                cht_legend_dict['bold'] = False
-        with col_legend23:
-            if st.checkbox('Italic', key='cht_legend_italic'):
-                cht_legend_dict['italic'] = True
-            else:
-                cht_legend_dict['italic'] = False 
-        
-            legend_bool = st.checkbox('Show')
-            if legend_bool:
-                cht_legend_dict['visible'] = True
-            else:
-                cht_legend_dict['visible'] = False
-
 
 
     chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_axis_dict, cht_legend_dict)
