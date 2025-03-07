@@ -155,7 +155,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
         if grouping == '100 Percent Stacked':
             cht_value_axis_dict['text'] = 'Percent'
         else:
-            cht_value_axis_dict['text'] = st.text_input('Value Label', key='val_label', placeholder='Input Value Label Here')
+            cht_value_axis_dict['text'] = st.text_input('Value Label', key='val_label', placeholder='Input Value Label Here', label_visibility='collapsed')
         
         col_val1, col_val2, col_val3 = st.columns([0.75, 0.15, 0.10])
         with col_val1:
