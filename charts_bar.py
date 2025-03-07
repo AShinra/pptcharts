@@ -163,7 +163,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
         with col_val2:
             cht_value_axis_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_value_font_size')
         with col_val3:
-            cht_value_axis_ftcolor = st.color_picker('Font Color', key='cht_value_font_color')
+            cht_value_axis_ftcolor = st.color_picker('Color', key='cht_value_font_color')
             rgb_color = hex_to_rgb(cht_value_axis_ftcolor)
             cht_value_axis_dict['font_color'] = rgb_color
         
