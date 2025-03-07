@@ -152,12 +152,14 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
     # value axis
     cht_value_axis_dict = {}
     with tab4:
+        if grouping == '100 Percent Stacked':
+            cht_value_axis_dict['text'] = 'Percent'
+        else:
+            cht_value_axis_dict['text'] = st.text_input('Value Label', key='val_label', placeholder='Input Value Label Here')
+        
         col_val1, col_val2, col_val3, col_val4 = st.columns([0.4, 0.3, 0.15, 0.15])
         with col_val1:
-            if grouping == '100 Percent Stacked':
-                cht_value_axis_dict['text'] = 'Percent'
-            else:
-                cht_value_axis_dict['text'] = st.text_input('Value Label', key='val_label', placeholder='Input Value Label Here')
+            'ddd'
         with col_val2:
             cht_value_axis_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_value_font_name')
         with col_val3:
