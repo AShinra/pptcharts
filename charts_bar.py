@@ -78,40 +78,76 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
 
     cht_title_dict = {}
     with tab2:
-        col_title1, col_title2, col_title3, col_title4 = st.columns([0.4, 0.3, 0.15, 0.15])
-        with col_title1:
-            cht_title = st.text_input('Chart Title', key='cht_title', placeholder='Input Chart Title Here')
-            if cht_title in [None, '']:
-                cht_title_dict['text'] = 'No Chart Title'
-            else:
-                cht_title_dict['text'] = cht_title
-        with col_title2:
+        cht_title = st.text_input('Chart Title', key='cht_title', placeholder='Input Chart Title Here', label_visibility='collapsed')
+        if cht_title in [None, '']:
+            cht_title_dict['text'] = 'No Chart Title'
+        else:
+            cht_title_dict['text'] = cht_title
+
+        col_title11, col_title12, col_title13 = st.columns([0.75, 0.15, 0.10])
+        with col_title11:
             cht_title_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_title_font_name')
-        with col_title3:
+        with col_title12:
             cht_title_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_title_font_size')
-        with col_title4:
-            cht_title_font_color = st.color_picker('Font Color', key='cht_title_font_color')
+        with col_title13:
+            cht_title_font_color = st.color_picker('Color', key='cht_title_font_color')
             rgb_color = hex_to_rgb(cht_title_font_color)
-            cht_title_dict['font_color'] = rgb_color                
+            cht_title_dict['font_color'] = rgb_color
+
+        col_title21, col_title22, col_title23, col_title24 = st.columns([0.15, 0.15, 0.15, 0.55])
+        with col_title21:
+            if st.checkbox('Bold', key='title_bold'):
+                cht_title_dict['bold'] = True
+            else:
+                cht_title_dict['bold'] = False
+        with col_title22:
+            if st.checkbox('Italic', key='title_italic'):
+                cht_title_dict['italic'] = True
+            else:
+                cht_title_dict['italic'] = False
+        with col_title23:
+            if st.checkbox('Underline', key='title_underline'):
+                cht_title_dict['underline'] = True
+            else:
+                cht_title_dict['underline'] = False
 
     # category axis
     cht_category_axis_dict = {}
     with tab3:
-        col_cat1, col_cat2, col_cat3, col_cat4 = st.columns([0.4, 0.3, 0.15, 0.15])
-        with col_cat1:
-            cat_label = st.text_input('Category Label', key='cat_label', placeholder='Input Category Label Here')
-            if cat_label in [None, '']:
-                cht_category_axis_dict['text'] = df.columns.tolist()[0]
-            else:   
-                cht_category_axis_dict['text'] = cat_label
-        with col_cat2:
+        cat_label = st.text_input('Category Label', key='cat_label', placeholder='Input Category Label Here', label_visibility='collapsed')
+        if cat_label in [None, '']:
+            cht_category_axis_dict['text'] = df.columns.tolist()[0]
+        else:   
+            cht_category_axis_dict['text'] = cat_label
+        
+        col_cat11, col_cat12, col_cat13 = st.columns([0.75, 0.15, 0.10])
+        with col_cat11:
             cht_category_axis_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_category_font_name')
-        with col_cat3:
+        with col_cat12:
             cht_category_axis_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_category_font_size')
-        with col_cat4:
-            cht_cat_axis_ftcolor = st.color_picker('Font Color', key='cht_category_font_color')
+        with col_cat13:
+            cht_cat_axis_ftcolor = st.color_picker('Color', key='cht_category_font_color')
             rgb_color = hex_to_rgb(cht_cat_axis_ftcolor)
             cht_category_axis_dict['font_color'] = rgb_color
+
+        
+        col_cat21, col_cat22, col_cat23, col_cat24 = st.columns([0.15, 0.15, 0.15, 0.55])
+        with col_cat21:
+            if st.checkbox('Bold', key='cat_bold'):
+                cht_category_axis_dict['bold'] = True
+            else:
+                cht_category_axis_dict['bold'] = False
+        with col_cat22:
+            if st.checkbox('Italic', key='cat_italic'):
+                cht_category_axis_dict['italic'] = True
+            else:
+                cht_category_axis_dict['italic'] = False
+        with col_cat23:
+            if st.checkbox('Underline', key='cat_underline'):
+                cht_category_axis_dict['underline'] = True
+            else:
+                cht_category_axis_dict['underline'] = False
+        
     
     # value axis
     cht_value_axis_dict = {}
@@ -134,14 +170,23 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
     # legend
     cht_legend_dict = {}
     with tab5:
-        col_legend1, col_legend2, col_legend3 = st.columns(3)
-        with col_legend1:
-            legend_bool = st.checkbox('Show')
-            if legend_bool:
-                cht_legend_dict['visible'] = True
+        col_legend11, col_legend12, col_legend13, col_legend14 = st.columns(4)
+        with col_legend11:
+            cht_legend_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_legend_font_name')
+        with col_legend12:
+            cht_legend_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_legend_font_size')
+        with col_legend13:
+            if st.checkbox('Bold', key='cht_legend_bold'):
+                cht_legend_dict['bold'] = True
             else:
-                cht_legend_dict['visible'] = False
-        with col_legend2:
+                cht_legend_dict['bold'] = False
+        with col_legend14:
+            if st.checkbox('Italic', key='cht_legend_italic'):
+                cht_legend_dict['italic'] = True
+            else:
+                cht_legend_dict['italic'] = False
+        col_legend21, col_legend22 = st.columns(2) 
+        with col_legend21:
             legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'])
             if legend_loc == 'Bottom':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.BOTTOM
@@ -153,6 +198,13 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.LEFT
             elif legend_loc == 'Right':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.RIGHT
+        with col_legend22:
+            legend_bool = st.checkbox('Show')
+            if legend_bool:
+                cht_legend_dict['visible'] = True
+            else:
+                cht_legend_dict['visible'] = False
+
 
 
     chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_axis_dict, cht_legend_dict)
@@ -170,6 +222,9 @@ def chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_
         cht_title.paragraphs[0].font.size = Pt(cht_title_dict['font_size'])
         cht_title.paragraphs[0].font.name = cht_title_dict['font_name']
         cht_title.paragraphs[0].font.color.rgb = RGBColor(*cht_title_dict['font_color'])
+        cht_title.paragraphs[0].font.bold = cht_title_dict['bold']
+        cht_title.paragraphs[0].font.italic = cht_title_dict['italic']
+        cht_title.paragraphs[0].font.underline = cht_title_dict['underline']
     except:
         pass
     
@@ -202,9 +257,10 @@ def chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_
         _chart.has_legend = True
         _chart.legend.include_in_layout = False
         _chart.legend.position = cht_legend_dict['location']
-        _chart.legend.font.size = Pt(8)
-        _chart.legend.font.bold = True
-        _chart.legend.font.name = 'Arial'
+        _chart.legend.font.name = cht_legend_dict['font_name']
+        _chart.legend.font.size = Pt(cht_legend_dict['font_size'])
+        _chart.legend.font.bold = cht_legend_dict['bold']
+        _chart.legend.font.italic = cht_legend_dict['italic']
     else:
         pass
     
