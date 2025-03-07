@@ -193,10 +193,6 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
             cht_legend_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_legend_font_name')
         with col_legend12:
             cht_legend_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_legend_font_size')
-        with col_legend13:
-            cht_legend_ftcolor = st.color_picker('Color', key='cht_legend_font_color')
-            rgb_color = hex_to_rgb(cht_legend_ftcolor)
-            cht_legend_dict['font_color'] = rgb_color
 
         col_legend21, col_legend22, col_legend23, col_legend24 = st.columns([0.15, 0.15, 0.15, 0.55])
         with col_legend21:
@@ -289,7 +285,6 @@ def chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_
         _chart.legend.font.size = Pt(cht_legend_dict['font_size'])
         _chart.legend.font.bold = cht_legend_dict['bold']
         _chart.legend.font.italic = cht_legend_dict['italic']
-        _chart.legend.font.color.rgb = RGBColor(*cht_value_axis_dict['font_color'])
     else:
         pass
     
