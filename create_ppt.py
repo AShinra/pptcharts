@@ -184,9 +184,13 @@ if __name__ == '__main__':
         )
 
         if chart_type == 'Bar':
+            bar_orientation = option_menu(
+                menu_title='Bar Orientation',
+                options=['Horizontal', 'Vertical']
+            )
             sub_type = option_menu(
                 menu_title='Grouping',
-                options=['Stacked', 'Clustered']
+                options=['Stacked', 'Clustered', '100 Percent Stacked']
             )
         
         if chart_type == 'Pie':
@@ -204,15 +208,16 @@ if __name__ == '__main__':
 
         # load data
         df = pd.read_csv(data_csv)
-        with st.expander('View Data'):
-            st.dataframe(df, hide_index='hidden', use_container_width=True)
-
+        
         if chart_type == 'Bar':
             if sub_type == 'Clustered':
-                add_bar_slide(df, prs, 'Clustered')               
+                add_bar_slide(df, prs, 'Clustered', bar_orientation)               
             
             if sub_type == 'Stacked':
-                add_bar_slide(df, prs, 'Stacked')
+                add_bar_slide(df, prs, 'Stacked', bar_orientation)
+            
+            if sub_type == '100 Percent Stacked':
+                add_bar_slide(df, prs, '100 Percent Stacked', bar_orientation)
         else:
             pass
         
