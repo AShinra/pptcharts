@@ -194,6 +194,12 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
         with col_legend12:
             cht_legend_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_legend_font_size')
         with col_legend13:
+            cht_legend_ftcolor = st.color_picker('Color', key='cht_value_font_color')
+            rgb_color = hex_to_rgb(cht_legend_ftcolor)
+            cht_legend_dict['font_color'] = rgb_color
+
+        col_legend21, col_legend22, col_legend23, col_legend24 = st.columns(4)
+        with col_legend21:
             legend_loc = st.selectbox('Location', options=['Bottom', 'Top', 'Corner', 'Left', 'Right'])
             if legend_loc == 'Bottom':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.BOTTOM
@@ -205,19 +211,16 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.LEFT
             elif legend_loc == 'Right':
                 cht_legend_dict['location'] = XL_LEGEND_POSITION.RIGHT
-
-        col_legend21, col_legend22, col_legend23, col_legend24 = st.columns(4)
-        with col_legend21:
+        with col_legend22:
             if st.checkbox('Bold', key='cht_legend_bold'):
                 cht_legend_dict['bold'] = True
             else:
                 cht_legend_dict['bold'] = False
-        with col_legend22:
+        with col_legend23:
             if st.checkbox('Italic', key='cht_legend_italic'):
                 cht_legend_dict['italic'] = True
             else:
                 cht_legend_dict['italic'] = False 
-        with col_legend23:
         
             legend_bool = st.checkbox('Show')
             if legend_bool:
