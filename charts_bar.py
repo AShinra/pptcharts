@@ -198,7 +198,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
             rgb_color = hex_to_rgb(cht_legend_ftcolor)
             cht_legend_dict['font_color'] = rgb_color
 
-        col_legend21, col_legend22, col_legend23, col_legend24 = st.columns(4)
+        col_legend21, col_legend22, col_legend23, col_legend24 = st.columns([0.15, 0.15, 0.15, 0.55])
         with col_legend21:
             if st.checkbox('Bold', key='cht_legend_bold'):
                 cht_legend_dict['bold'] = True
