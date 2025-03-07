@@ -223,7 +223,7 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
                 cht_legend_dict['visible'] = True
             else:
                 cht_legend_dict['visible'] = False
-        with col_legend24:
+        
             
 
 
