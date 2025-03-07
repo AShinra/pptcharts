@@ -157,15 +157,32 @@ def add_bar_slide(df, prs, grouping, bar_orientation):
         else:
             cht_value_axis_dict['text'] = st.text_input('Value Label', key='val_label', placeholder='Input Value Label Here', label_visibility='collapsed')
         
-        col_val1, col_val2, col_val3 = st.columns([0.75, 0.15, 0.10])
-        with col_val1:
+        col_val11, col_val12, col_val13 = st.columns([0.75, 0.15, 0.10])
+        with col_val11:
             cht_value_axis_dict['font_name'] = st.selectbox('Font Name', options=available_fonts, key='cht_value_font_name')
-        with col_val2:
+        with col_val12:
             cht_value_axis_dict['font_size'] = st.number_input('Font Size', min_value=1, max_value=100, value=10, step=1, key='cht_value_font_size')
-        with col_val3:
+        with col_val13:
             cht_value_axis_ftcolor = st.color_picker('Color', key='cht_value_font_color')
             rgb_color = hex_to_rgb(cht_value_axis_ftcolor)
             cht_value_axis_dict['font_color'] = rgb_color
+        
+        col_val21, col_val22, col_val23, col_val24 = st.columns([0.15, 0.15, 0.15, 0.55])
+        with col_val21:
+            if st.checkbox('Bold', key='val_bold'):
+                cht_value_axis_dict['bold'] = True
+            else:
+                cht_value_axis_dict['bold'] = False
+        with col_val22:
+            if st.checkbox('Italic', key='val_italic'):
+                cht_value_axis_dict['italic'] = True
+            else:
+                cht_value_axis_dict['italic'] = False
+        with col_val23:
+            if st.checkbox('Underline', key='val_underline'):
+                cht_value_axis_dict['underline'] = True
+            else:
+                cht_value_axis_dict['underline'] = False
         
     
     # legend
