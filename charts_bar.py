@@ -287,6 +287,7 @@ def chart_details(df, _chart, cht_title_dict, cht_category_axis_dict, cht_value_
         _chart.legend.font.size = Pt(cht_legend_dict['font_size'])
         _chart.legend.font.bold = cht_legend_dict['bold']
         _chart.legend.font.italic = cht_legend_dict['italic']
+        _chart.legend.font.color.rgb = RGBColor(*cht_value_axis_dict['font_color'])
     else:
         pass
     
